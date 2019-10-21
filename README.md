@@ -1,32 +1,6 @@
 # dotfiles
 Dot files for VIM and TMUX - the focus is on minimized numbers of plug-ins with maximum performance.
 
-## Setup
-
- - Clone repository into `~`:
-```
-git clone https://github.com/wosrediinanatour/dotfiles.git
-```
-
- - Remove `~/.vimrc` and `~/.tmux.conf`
-
- - Install dot files:
-
-```
-$ stow -v VIM
-LINK: .vimrc => dotfiles/VIM/.vimrc
-$ stow -v TMUX
-  LINK: .tmux.conf => dotfiles/TMUX/.tmux.conf
-  LINK: show_load_per_cpu => dotfiles/TMUX/show_load_per_cpu
-```
-
-## Uninstall
-
-```
-$ stow -D VIM
-$ stow -D TMUX
-```
-
 ## TMUX
 
 Main feature - iIt shows following panel:
@@ -41,9 +15,35 @@ Main feature - iIt shows following panel:
 
 Main features - for the list of plug-ins see `.vimrc`:
 
- - Use of FZF for almost everything
+ - Use of FZF for almost everything: buffers, searching for files, marks, etc.
  - Support of GIT
 
 
+# Setup
+
+ - Clone repository into `~`:
+```
+git clone https://github.com/wosrediinanatour/dotfiles.git
+```
+
+ - Remove `~/.vimrc` and `~/.tmux.conf`
+
+ - Install dot files (you need GNU stow, .e.g. by `sudo dnf install stow`):
+
+```
+$ cd ~/dotfiles
+$ stow -v VIM
+  LINK: .vimrc => dotfiles/VIM/.vimrc
+$ stow -v TMUX
+  LINK: .tmux.conf => dotfiles/TMUX/.tmux.conf
+  LINK: show_load_per_cpu => dotfiles/TMUX/show_load_per_cpu
+```
+
+# Uninstall
+
+```
+$ stow -D VIM
+$ stow -D TMUX
+```
 
 
