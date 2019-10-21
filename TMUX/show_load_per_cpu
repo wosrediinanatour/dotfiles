@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#
+# Copyright (c) 2019 Florian Xaver
+#
+# MIT License: see File LICENSE
+#
+
+mpstat -P ALL -o JSON 1 1 | jq -r '.sysstat.hosts[0].statistics[]."cpu-load"[1:][].usr' | awk '{printf "cpu%d %2d%% ", NR-1, $1}'
+
