@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#
+# Copyright (c) 2019 Florian Xaver
+#
+# MIT License: see File LICENSE
+#
+
+df --human-readable --block-size=1M . | awk 'NR > 1 {printf "%sM", $4 }'
