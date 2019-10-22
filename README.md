@@ -39,6 +39,8 @@ $ stow -v TMUX
   LINK: show_load_per_cpu => dotfiles/TMUX/show_load_per_cpu
 ```
 
+ - VIM `:PlugInstall` and in TMUX `CTRL+B CTRL+I` triggers the installation of plug-ins.
+
 # Uninstall
 
 ```
