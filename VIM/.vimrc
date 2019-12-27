@@ -13,6 +13,10 @@ endif
 " Required:
 call plug#begin('~/.vim/plugged')
 
+" Wimwiki: \ww for Wiki site. Enter on a word makes a link,
+" double enter on a link creates a new page if necessary.
+Plug 'vimwiki/vimwiki'
+
 Plug 'ervandew/supertab'
 " Colorful editor
 Plug 'itchyny/landscape.vim' 
