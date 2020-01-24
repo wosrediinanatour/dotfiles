@@ -35,25 +35,28 @@ set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" You need to install coc-snippets by :CocInstall coc-snippets
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+         \ pumvisible() ? coc#_select_confirm() :
+         \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+         \ <SID>check_back_space() ? "\<TAB>" :
+         \ coc#refresh()
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+   let col = col('.') - 1
+   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+let g:coc_snippet_next = '<tab>'
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
-" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -144,6 +147,12 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 
+"
+" FZF
+"
+"
+
+
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 nmap <c-p> :FZF<CR>
@@ -158,18 +167,9 @@ nmap <Leader>L :Lines<CR>
 nmap <Leader>' :Marks<CR>
 nmap <Leader>H :Helptags!<CR>
 
-"Plug 'ludovicchabant/vim-gutentags'
-"Plug 'skywind3000/gutentags_plus'
-" enable gtags module
-"let g:gutentags_modules = ['ctags', 'gtags_cscope']
-" config project root markers.
-"let g:gutentags_project_root = ['.root']
-" generate datebases in my cache directory, prevent gtags files polluting my project
-"let g:gutentags_cache_dir = expand('~/.cache/tags')
-" change focus to quickfix window after search (optional).
-"let g:gutentags_plus_switch = 1
-
-"Plug 'wellle/tmux-complete.vim' " <C-X><C-U>
+"
+" GIT plugins
+"
 
 Plug 'airblade/vim-gitgutter'
 " Use fontawesome icons as signs
@@ -202,22 +202,18 @@ nnoremap <Leader>gbl :Gblame<CR>  " git blame
 Plug 'junegunn/gv.vim'
 nnoremap <Leader>gc :GV!<CR>  " git browse commits
 
-" let g:tmux_navigator_no_mappings = 1
-" nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-" nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-" nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-" nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-" nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
-
-
+"
 " Lightline: Following code is from https://github.com/itchyny/lightline.vim 
+"
+"
 
 Plug 'itchyny/lightline.vim'
 
 let g:lightline = {
          \ 'colorscheme': 'landscape',
          \ 'active': {
-         \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+         \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ],  
+         \             [ 'cocstatus', 'currentfunction', 'readonly', 'modified' ] ],
          \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
          \ },
          \ 'component_function': {
@@ -227,10 +223,15 @@ let g:lightline = {
          \   'filetype': 'LightLineFiletype',
          \   'fileencoding': 'LightLineFileencoding',
          \   'mode': 'LightLineMode',
-         \   'ctrlpmark': 'CtrlPMark',
+         \   'cocstatus': 'coc#status',
+         \   'currentfunction': 'CocCurrentFunction'
          \ },
          \ 'subseparator': { 'left': '|', 'right': '|' }
          \ }
+
+function! CocCurrentFunction()
+       return get(b:, 'coc_current_function', '')
+endfunction
 
 function! LightLineModified()
    return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
@@ -242,8 +243,7 @@ endfunction
 
 function! LightLineFilename()
    let fname = expand('%:t')
-   return fname == 'ControlP' ? g:lightline.ctrlp_item :
-            \ fname == '__Tagbar__' ? g:lightline.fname :
+   return fname == '__Tagbar__' ? g:lightline.fname :
             \ fname =~ '__Gundo\|NERD_tree' ? '' :
             \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
             \ &ft == 'unite' ? unite#get_status_string() :
@@ -280,7 +280,6 @@ endfunction
 function! LightLineMode()
    let fname = expand('%:t')
    return fname == '__Tagbar__' ? 'Tagbar' :
-            \ fname == 'ControlP' ? 'CtrlP' :
             \ fname == '__Gundo__' ? 'Gundo' :
             \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
             \ fname =~ 'NERD_tree' ? 'NERDTree' :
@@ -288,33 +287,6 @@ function! LightLineMode()
             \ &ft == 'vimfiler' ? 'VimFiler' :
             \ &ft == 'vimshell' ? 'VimShell' :
             \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-function! CtrlPMark()
-   if expand('%:t') =~ 'ControlP'
-      call lightline#link('iR'[g:lightline.ctrlp_regex])
-      return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-               \ , g:lightline.ctrlp_next], 0)
-   else
-      return ''
-   endif
-endfunction
-
-let g:ctrlp_status_func = {
-         \ 'main': 'CtrlPStatusFunc_1',
-         \ 'prog': 'CtrlPStatusFunc_2',
-         \ }
-
-function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-   let g:lightline.ctrlp_regex = a:regex
-   let g:lightline.ctrlp_prev = a:prev
-   let g:lightline.ctrlp_item = a:item
-   let g:lightline.ctrlp_next = a:next
-   return lightline#statusline(0)
-endfunction
-
-function! CtrlPStatusFunc_2(str)
-   return lightline#statusline(0)
 endfunction
 
 let g:tagbar_status_func = 'TagbarStatusFunc'
