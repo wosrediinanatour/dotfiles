@@ -39,9 +39,29 @@ $ stow -v TMUX
   LINK: show_load_per_cpu => dotfiles/TMUX/show_load_per_cpu
 ```
 
+## VIM
+
+- Install VIM Plug: https://github.com/junegunn/vim-plug
+ 
+```
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+
  - VIM `:PlugInstall` and in TMUX `CTRL+B CTRL+I` triggers the installation of plug-ins.
 
  - For Language Client ALE (vim) you need the language server ccls: `sudo dnf install ccls`
+
+## TMUX
+
+ - Install TMUX Plugin Manager by `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+
+ - `mstat` of Package `sysstat`  and `jq` are used for displaying CPU load:
+
+```
+sudo dnf install sysstat jq
+
 
 # Uninstall
 
