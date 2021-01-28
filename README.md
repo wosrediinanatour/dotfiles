@@ -41,6 +41,8 @@ $ stow -v TMUX
 
  - VIM `:PlugInstall` and in TMUX `CTRL+B CTRL+I` triggers the installation of plug-ins.
 
+ - For Language Client ALE (vim) you need the language server ccls: `sudo dnf install ccls`
+
 # Uninstall
 
 ```
