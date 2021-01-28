@@ -61,7 +61,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 ```
 sudo dnf install sysstat jq
-
+```
 
 # Uninstall
 
