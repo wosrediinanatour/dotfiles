@@ -202,12 +202,6 @@ set laststatus=2
 
 """"""""""""""""""""""""""""""""""""""""""""""
 
-nmap <F5> :execute "vimgrep /" . expand("<cword>") . "/j ./**/*.cpp ./**/*.h" <Bar> cw <CR>
-
-nmap <F6> :execute "vimgrep /" . expand("<cword>") . "/j ~/Sources/officialSystemPlatform/Callisto_Evo_15_2_21_sipif_updated/**/*.cpp ~/Sources/officialSystemPlatform/Callisto_Evo_15_2_21_sipif_updated/**/*.h ~/Sources/officialSystemPlatform/Callisto_Evo_15_2_21_sipif_updated/**/*.c" <Bar> cw <CR>
-
-nmap <F7> :TagbarToggle<CR>
-
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
