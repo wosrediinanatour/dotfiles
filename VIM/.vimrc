@@ -35,10 +35,15 @@ let g:ale_cpp_ccls_init_options = {
          \   }
          \ }
 let g:ale_completion_enabled = 1
-nn <silent> gd :ALEGoToDefinition<cr>
-nn <silent> gr :ALEFindReferences<cr>
-nn <silent> ga :ALESymbolSearch<cr>
+let g:ale_hover_to_preview = 1
+nn <silent> gd :ALEGoToDefinition -split<cr>
+nn <silent> gt :ALEGoToTypeDefinition -split<cr>
+nn <silent> gr :ALEFindReferences -relative<cr>
+nn <silent> gs :ALESymbolSearch -relative <query><cr>
 nn <silent> gh :ALEHover<cr>
+" Show the full linter message for the problem nearest to the cursor on the
+" given line in the preview window.
+nn <silent> ge <Plug>(ale_detail)<cr>
 
 "
 " FZF
