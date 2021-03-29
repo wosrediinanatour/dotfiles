@@ -3,7 +3,7 @@ Dot files for VIM and TMUX - the focus is on minimized numbers of plug-ins with 
 
 ## TMUX
 
-Main feature - iIt shows following panel:
+The main feature is showing following panel at the bottom:
 ```
  master                        1:vim*              cpu0  0% cpu1  0% cpu2  4% cpu3  0%  21/10 09:28:39
  ^                               ^                        ^
@@ -18,6 +18,11 @@ Main features - for the list of plug-ins see `.vimrc`:
  - Use of FZF for almost everything: buffers, searching for files, marks, etc.
  - Support of GIT
 
+## BASH
+
+Main features:
+
+ - A single big history for all TMUX sessions. *Note* that `~/.bashrc` is not modified!
 
 # Setup
 
@@ -37,6 +42,8 @@ $ stow -v VIM
 $ stow -v TMUX
   LINK: .tmux.conf => dotfiles/TMUX/.tmux.conf
   LINK: show_load_per_cpu => dotfiles/TMUX/show_load_per_cpu
+$ sudo stow -v BASH --target=/etc/profile.d/
+  LINK: bashrc.sh => ../../var/home/fxaver/dotfiles/BASH/bashrc.sh
 ```
 
 ## VIM
@@ -71,6 +78,7 @@ sudo dnf install sysstat jq
 ```
 $ stow -D VIM
 $ stow -D TMUX
+$ sudo stow -D BASH --target=/etc/profile.d/
 ```
 
 

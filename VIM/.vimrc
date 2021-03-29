@@ -325,4 +325,5 @@ endif
 
 " Set language
 set spell spelllang=en_us
+set nospell
 
