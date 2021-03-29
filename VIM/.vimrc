@@ -318,11 +318,11 @@ set diffopt+=iwhite
 set diffexpr=""
 
 " Use RIPGREP as grep program
-set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
 if executable('rg')
-     let g:rg_derive_root='true'
-  endif
+   set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
+   let g:rg_derive_root='true'
+endif
 
 " Set language
-set spell spelllang=en_gb
+set spell spelllang=en_us
 
