@@ -52,6 +52,8 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
  - VIM `:PlugInstall` and in TMUX `CTRL+B CTRL+I` triggers the installation of plug-ins.
 
  - For Language Client ALE (vim) you need the language server ccls: `sudo dnf install ccls`
+ 
+ - Install RIPGREP: `sudo dnf install ripgrep`
 
 ## TMUX
 
@@ -62,6 +64,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 ```
 sudo dnf install sysstat jq
 ```
+
 
 # Uninstall
 
