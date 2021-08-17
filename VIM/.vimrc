@@ -53,8 +53,14 @@ nn <silent> gh :ALEHover<cr>
 nn <silent> ge :ALEDetail<cr>
 
 "
-" FZF
+" Support for .editorconfig 
 "
+
+Plug 'editorconfig/editorconfig-vim'
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
+"
+" FZF
 "
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
