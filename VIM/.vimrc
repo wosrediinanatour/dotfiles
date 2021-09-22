@@ -77,6 +77,9 @@ nmap <Leader>L :Lines<CR>
 nmap <Leader>' :Marks<CR>
 nmap <Leader>H :Helptags!<CR>
 
+" Find hidden files and directories
+let $FZF_DEFAULT_COMMAND='find -L'
+
 "
 " GIT plugins
 "
