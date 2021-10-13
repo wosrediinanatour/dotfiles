@@ -34,8 +34,8 @@ let g:ale_cpp_cc_options = '-std=c++20 -Wall'
 " https://github.com/MaskRay/ccls/wiki/Customization
 let g:ale_cpp_ccls_init_options = {
          \   "cache": { "directory": "/tmp/ccls/cache" },
-         \   "clang": {"pathMappings": ["/repository/>" . getcwd()]},
-         \   "compilationDatabaseDirectory": "build/"
+         \   "clang": {"pathMappings": "/repository/>" . getcwd() ."/"},
+         \   "compilationDatabaseDirectory": getcwd() . "/build/"
          \ }
 let g:ale_fixers = {
          \   'cpp': ['clang-format'],
