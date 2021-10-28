@@ -29,18 +29,18 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
 "
 
 Plug 'dense-analysis/ale'
-let g:ale_cpp_cc_executable = 'g++'
 let g:ale_cpp_cc_options = '-std=c++20 -Wall'
 " https://github.com/MaskRay/ccls/wiki/Customization
-let g:ale_cpp_ccls_init_options = {
-         \   "cache": { "directory": "/tmp/ccls/cache" },
-         \   "clang": {"pathMappings": "/repository/>" . getcwd() ."/"},
-         \   "compilationDatabaseDirectory": getcwd() . "/build/"
-         \ }
+let g:ale_cpp_ccls_init_options = {"clang": {"pathMappings": ["/repository/>".getcwd()."/"]}, "compilationDatabaseDirectory": getcwd()."/build/"}
+" Does not work:
+"let g:ale_cpp_ccls_init_options = {
+"            \   "cache": { "directory": "/tmp/ccls/cache" },
+"            \   "clang": {"pathMappings": "/repository/>" . getcwd() ."/"},
+"            \   "compilationDatabaseDirectory": getcwd() . "/build/"
+"            \ }
 let g:ale_fixers = {
          \   'cpp': ['clang-format'],
          \}
-"let g:ale_linters = {'cpp': ['ccls']}
 let g:ale_completion_enabled = 1
 let g:ale_hover_to_preview = 1
 nn <silent> gd :ALEGoToDefinition<cr>
