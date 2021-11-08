@@ -19,10 +19,7 @@ Plug 'vimwiki/vimwiki'
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
-"Plug 'ervandew/supertab'
-" Colorful editor
-"Plug 'itchyny/landscape.vim' 
-" Plug 'jtratner/vim-flavored-markdown'
+Plug 'bfrg/vim-cpp-modern'
 
 "
 "  ALE and ccls
