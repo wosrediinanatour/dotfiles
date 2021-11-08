@@ -19,6 +19,10 @@ Plug 'vimwiki/vimwiki'
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
+"
+" Syntax highlighting
+"
+
 Plug 'bfrg/vim-cpp-modern'
 
 "
@@ -26,15 +30,13 @@ Plug 'bfrg/vim-cpp-modern'
 "
 
 Plug 'dense-analysis/ale'
+let g:ale_c_build_dir = getcwd()."/build/"
+let g:ale_linters = {'c': ['ccls'], 'cpp': ['ccls']}
 let g:ale_cpp_cc_options = '-std=c++20 -Wall'
 " https://github.com/MaskRay/ccls/wiki/Customization
-let g:ale_cpp_ccls_init_options = {"clang": {"pathMappings": ["/repository/>".getcwd()."/"]}, "compilationDatabaseDirectory": getcwd()."/build/"}
-" Does not work:
-"let g:ale_cpp_ccls_init_options = {
-"            \   "cache": { "directory": "/tmp/ccls/cache" },
-"            \   "clang": {"pathMappings": "/repository/>" . getcwd() ."/"},
-"            \   "compilationDatabaseDirectory": getcwd() . "/build/"
-"            \ }
+" pathMappings are for mapping folders between container and host.
+" Note that we have also to consider clang's parameter '--gcc-toolchain'. 
+let g:ale_cpp_ccls_init_options = {"clang": {"pathMappings": ["/repository/>".getcwd()."/", "/opt/rh/gcc-toolset-10/root>"]}, "compilationDatabaseDirectory": getcwd()."/build/"}
 let g:ale_fixers = {
          \   'cpp': ['clang-format'],
          \}
