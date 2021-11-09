@@ -34,9 +34,19 @@ let g:ale_c_build_dir = getcwd()."/build/"
 let g:ale_linters = {'c': ['ccls'], 'cpp': ['ccls']}
 let g:ale_cpp_cc_options = '-std=c++20 -Wall'
 " https://github.com/MaskRay/ccls/wiki/Customization
-" pathMappings are for mapping folders between container and host.
-" Note that we have also to consider clang's parameter '--gcc-toolchain'. 
-let g:ale_cpp_ccls_init_options = {"clang": {"pathMappings": ["/repository/>".getcwd()."/", "/opt/rh/gcc-toolset-10/root>"]}, "compilationDatabaseDirectory": getcwd()."/build/"}
+" 
+" Path problem: compile_commands.json generated in container, compiler and include files at the host
+"
+" Solution: configuration of CCLS
+"
+" - pathMappings are for mapping folders between container and host.
+" - Note that we have also to consider clang's parameter '--gcc-toolchain'.
+" - Since host uses a different C++ version, resourceDir has to be set to the host's include directory.
+" - If you encounter errors, you have to enable logging of CCLS in VIM-ALE:
+"    - ~/.vim/plugged/ale/ale_linters/cpp/ccls.vim:12 Add ' --log-file=/tmp/ccls.log -v=1' after %e  
+"    - If you see errors in /tmp/ccls.log that a header is not found: install it on the host (e.g. openssl-devel for ssl.h)
+"
+let g:ale_cpp_ccls_init_options = {"cacheFormat": "json", "clang": {"resourceDir": "/usr/lib64/clang/13.0.0", "pathMappings": ["/repository/>".getcwd()."/", "/opt/rh/gcc-toolset-10/root>"], "clang.extraArgs": ["--gcc-toolchain=/opt/rh/gcc-toolset-10/root/usr"]}, "compilationDatabaseDirectory": getcwd()."/build/", "index": {"multiVersion": 1}}
 let g:ale_fixers = {
          \   'cpp': ['clang-format'],
          \}
