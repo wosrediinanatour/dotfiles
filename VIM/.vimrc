@@ -24,6 +24,8 @@ let g:vimwiki_list = [{'path': '~/vimwiki/',
 "
 
 Plug 'bfrg/vim-cpp-modern'
+let g:cpp_attributes_highlight = 1
+let g:cpp_member_highlight = 1
 
 "
 "  ALE and ccls
@@ -69,25 +71,20 @@ Plug 'editorconfig/editorconfig-vim'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 "
-" FZF
+" CLAP
 "
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-nmap <c-p> :FZF<CR>
-nmap <Leader>f :GFiles<CR>
-nmap <Leader>F :Files<CR>
-nmap <Leader>b :Buffers<CR>
-nmap <Leader>h :History<CR>
-nmap <Leader>t :BTags<CR>
-nmap <Leader>T :Tags<CR>
-nmap <Leader>l :BLines<CR>
-nmap <Leader>L :Lines<CR>
-nmap <Leader>' :Marks<CR>
-nmap <Leader>H :Helptags!<CR>
-
-" Find hidden files and directories
-let $FZF_DEFAULT_COMMAND='find -L'
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+let g:clap_theme = 'material_design_dark'
+nmap <Leader>f :Clap gfiles<CR>
+nmap <Leader>F :Clap files<CR>
+nmap <Leader>b :Clap buffers<CR>
+nmap <Leader>h :Clap history<CR>
+nmap <Leader>' :Clap marks<CR>
+nmap <Leader>H :Clap help_tags<CR>
+nmap <Leader>c :Clap commits<CR>
+nmap <Leader>g :Clap grep ++query=<cword><CR>
+nmap <Leader>r :Clap recent_files<CR>
 
 "
 " GIT plugins
