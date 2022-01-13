@@ -10,7 +10,13 @@ if has('vim_starting')
    endif
 endif
 
-" Required:
+
+" Statusline
+set statusline=[%n]\ %<%F\ \ \ [%M%R%H%W%Y,%{&ff}]\ \ %=\ %l,%c\ \ \ %p%%\ \ \ 
+
+"
+" Plugins
+"
 call plug#begin('~/.vim/plugged')
 
 " Wimwiki: \ww for Wiki site. Enter on a word makes a link,
@@ -63,12 +69,26 @@ nn <silent> gh :ALEHover<cr>
 " given line in the preview window.
 nn <silent> ge :ALEDetail<cr>
 
+function! LinterStatus() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+
+  return printf(
+     \   'W%d E%d',
+     \   all_non_errors,
+     \   all_errors
+     \)
+endfunction
+set statusline+=%{LinterStatus()}\ 
+
 "
 " Support for .editorconfig 
 "
 
 Plug 'editorconfig/editorconfig-vim'
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 "
 " CLAP
@@ -87,7 +107,7 @@ nmap <Leader>g :Clap grep ++query=<cword><CR>
 nmap <Leader>r :Clap recent_files<CR>
 
 "
-" GIT plugins
+" GITGUTTER: show git diff in the sign column
 "
 
 Plug 'airblade/vim-gitgutter'
@@ -103,126 +123,22 @@ nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
 " Hunk-add and hunk-revert for chunk staging
 nmap <Leader>ga <Plug>(GitGutterStageHunk)  " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
+function! GitStatus()
+   let [a,m,r] = GitGutterGetHunkSummary()
+   return printf('+%d ~%d -%d', a, m, r)
+endfunction
+set statusline+=%{GitStatus()}
 
-Plug 'jreybert/vimagit'
-" Open vimagit pane
-nnoremap <leader>gs :Magit<CR>       " git status
-" Push to remote
-nnoremap <leader>gP :! git push<CR>  " git Push
-" Enable deletion of untracked files in Magit
-let g:magit_discard_untracked_do_delete=1
+"
+" FUGITIVE: wrapper for GIT, i.e. use :Git
+"
 
-Plug 'sodapopcan/vim-twiggy'
-nnoremap <Leader>gbr :Twiggy<CR>  " git branches
 Plug 'tpope/vim-fugitive'
 " Show commits for every source line
-nnoremap <Leader>gbl :Gblame<CR>  " git blame
-" GIT commit browser
-Plug 'junegunn/gv.vim'
-nnoremap <Leader>gc :GV!<CR>  " git browse commits
-
-"
-" Lightline: Following code is from https://github.com/itchyny/lightline.vim 
-"
-"
-
-Plug 'itchyny/lightline.vim'
-
-let g:lightline = {
-         \ 'colorscheme': 'landscape',
-         \ 'active': {
-         \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ],  
-         \             [ 'cocstatus', 'currentfunction', 'readonly', 'modified' ] ],
-         \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-         \ },
-         \ 'component_function': {
-         \   'fugitive': 'LightLineFugitive',
-         \   'filename': 'LightLineFilename',
-         \   'fileformat': 'LightLineFileformat',
-         \   'filetype': 'LightLineFiletype',
-         \   'fileencoding': 'LightLineFileencoding',
-         \   'mode': 'LightLineMode',
-         \   'cocstatus': 'coc#status',
-         \   'currentfunction': 'CocCurrentFunction'
-         \ },
-         \ 'subseparator': { 'left': '|', 'right': '|' }
-         \ }
-
-function! CocCurrentFunction()
-       return get(b:, 'coc_current_function', '')
-endfunction
-
-function! LightLineModified()
-   return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! LightLineReadonly()
-   return &ft !~? 'help' && &readonly ? 'RO' : ''
-endfunction
-
-function! LightLineFilename()
-   let fname = expand('%:t')
-   return fname == '__Tagbar__' ? g:lightline.fname :
-            \ fname =~ '__Gundo\|NERD_tree' ? '' :
-            \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-            \ &ft == 'unite' ? unite#get_status_string() :
-            \ &ft == 'vimshell' ? vimshell#get_status_string() :
-            \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-            \ ('' != fname ? fname : '[No Name]') .
-            \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-endfunction
-
-function! LightLineFugitive()
-   try
-      if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-         let mark = ''  " edit here for cool mark
-         let _ = fugitive#head()
-         return strlen(_) ? mark._ : ''
-      endif
-   catch
-   endtry
-   return ''
-endfunction
-
-function! LightLineFileformat()
-   return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! LightLineFiletype()
-   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! LightLineFileencoding()
-   return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! LightLineMode()
-   let fname = expand('%:t')
-   return fname == '__Tagbar__' ? 'Tagbar' :
-            \ fname == '__Gundo__' ? 'Gundo' :
-            \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-            \ fname =~ 'NERD_tree' ? 'NERDTree' :
-            \ &ft == 'unite' ? 'Unite' :
-            \ &ft == 'vimfiler' ? 'VimFiler' :
-            \ &ft == 'vimshell' ? 'VimShell' :
-            \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-let g:tagbar_status_func = 'TagbarStatusFunc'
-
-function! TagbarStatusFunc(current, sort, fname, ...) abort
-   let g:lightline.fname = a:fname
-   return lightline#statusline(0)
-endfunction
-
-let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
-let g:vimshell_force_overwrite_statusline = 0
+nnoremap <Leader>gbl :Git blame<CR>  " git blame
 
 " Add plugins to &runtimepath
 call plug#end()
-
-
 
 " Always show the status line
 set laststatus=2
@@ -332,7 +248,7 @@ set relativenumber
 set ruler
 
 " Update sign column every quarter second
-set updatetime=250
+set updatetime=100
 
 " Vimdiff: ignore white spaces
 set diffopt+=iwhite
