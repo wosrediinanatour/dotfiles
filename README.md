@@ -3,11 +3,13 @@ Dot files for VIM and TMUX - the foci are on
 
  - minimized numbers of plug-ins (dependencies) with maximum performance.
 
- - software development: C, C++, Python, Markdown, PlantUML
+ - software development
+
+ - linters, syntax highlighting, and language servers (C, C++, Python, Markdown, PlantUML)
 
  - a good work flow
 
-_Note that you can easily install configuration (and dependencies) only for either VIM or TMUX._
+_Note that you can install configuration (and dependencies) easily only for either VIM or TMUX._
 
 ## TMUX
 
@@ -79,16 +81,16 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
  - You may install all dependencies together by
  ```sh
- sudo dnf install -y ripgrep ccls pandoc plantuml
+ sudo dnf install -y ripgrep ccls pandoc plantuml clang-format
  ```
 
-    - RIPGREP is as replacement of GREP
+    - RIPGREP is a fast replacement of GREP.
 
-    - For Language Client ALE (vim) you need a language server. For C++ CCLS is configured. 
+    - For Language Client ALE (vim) you need a language server. For C++ CCLS is configured.
  
-    - For markdown linting install Pandoc is used.
+    - For markdown linting Pandoc and for C and C++ linting clang-format is used.
 
-    - Optional install PlantUML
+    - PlantUML installation is optional.
 
 ## TMUX
 
