@@ -13,29 +13,22 @@ endif
 
 " Statusline
 set statusline=[%n]\ %<%F\ \ \ [%M%R%H%W%Y,%{&ff}]\ \ %=\ %l,%c\ \ \ %p%%\ \ \ 
+set laststatus=2 " Always show the status line
 
 "
 " Plugins
 "
 call plug#begin('~/.vim/plugged')
 
-" Wimwiki: \ww for Wiki site. Enter on a word makes a link,
-" double enter on a link creates a new page if necessary.
-Plug 'vimwiki/vimwiki'
-let g:vimwiki_list = [{'path': '~/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
-
-"
 " Syntax highlighting
-"
 
 Plug 'bfrg/vim-cpp-modern'
 let g:cpp_attributes_highlight = 1
 let g:cpp_member_highlight = 1
 
-"
-"  ALE and ccls
-"
+Plug 'aklt/plantuml-syntax'
+
+"  ALE as linter (for Markdown install Pandoc) an language client (for C/C++ install CCLS)
 
 Plug 'dense-analysis/ale'
 let g:ale_c_build_dir = getcwd()."/build/"
@@ -83,19 +76,16 @@ function! LinterStatus() abort
 endfunction
 set statusline+=%{LinterStatus()}\ 
 
-"
 " Support for .editorconfig 
-"
 
 Plug 'editorconfig/editorconfig-vim'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
-"
-" CLAP
-"
+" CLAP: search for almost everything - buffers, files, regex in files, marks,...
 
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 let g:clap_theme = 'material_design_dark'
+let g:clap_layout = { 'relative': 'editor' }
 nmap <Leader>f :Clap gfiles<CR>
 nmap <Leader>F :Clap files<CR>
 nmap <Leader>b :Clap buffers<CR>
@@ -103,12 +93,11 @@ nmap <Leader>h :Clap history<CR>
 nmap <Leader>' :Clap marks<CR>
 nmap <Leader>H :Clap help_tags<CR>
 nmap <Leader>c :Clap commits<CR>
-nmap <Leader>g :Clap grep ++query=<cword><CR>
+nmap <Leader>gg :Clap grep2<CR>
+nmap <Leader>gw :Clap grep2 ++query=<cword><CR>
 nmap <Leader>r :Clap recent_files<CR>
 
-"
 " GITGUTTER: show git diff in the sign column
-"
 
 Plug 'airblade/vim-gitgutter'
 " Use fontawesome icons as signs
@@ -129,9 +118,7 @@ function! GitStatus()
 endfunction
 set statusline+=%{GitStatus()}
 
-"
 " FUGITIVE: wrapper for GIT, i.e. use :Git
-"
 
 Plug 'tpope/vim-fugitive'
 " Show commits for every source line
@@ -140,16 +127,17 @@ nnoremap <Leader>gbl :Git blame<CR>  " git blame
 " Add plugins to &runtimepath
 call plug#end()
 
-" Always show the status line
-set laststatus=2
-
 """"""""""""""""""""""""""""""""""""""""""""""
+
+" Highlight syntax inside Markdown
+let g:markdown_fenced_languages = ['html', 'css', 'python', 'ruby', 'vim', 'bash=sh', 'sh', 'c', 'cpp', 'json=javascript', 'xml', 'javascript', 'plantuml']
+
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
 
-" Turn on the WiLd menu
+" Turn on the Wild menu
 set wildmenu
 
 
@@ -219,9 +207,6 @@ set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
-
-" Force all *.md files to be markdown files.
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 "folding settings
 set foldmethod=indent   "fold based on indent
