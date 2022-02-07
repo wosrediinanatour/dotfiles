@@ -51,7 +51,7 @@ Main features:
 
  - Clone repository into `~`:
 ```sh
-git clone https://github.com/wosrediinanatour/dotfiles.git
+git clone git@github.com:wosrediinanatour/dotfiles.git
 ```
 
  - Remove `~/.vimrc` and `~/.tmux.conf`, if they exist.
@@ -102,7 +102,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 sudo dnf install sysstat jq
 ```
 
- - TMUX `CTRL+B CTRL+I` triggers the installation of plug-ins.
+ - TMUX `CTRL+B SHIT+I` triggers the installation of plug-ins.
 
 # Uninstall
 
