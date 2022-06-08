@@ -21,12 +21,14 @@ set laststatus=2 " Always show the status line
 call plug#begin('~/.vim/plugged')
 
 " Syntax highlighting
+"
+
+Plug 'aklt/plantuml-syntax'
 
 Plug 'bfrg/vim-cpp-modern'
 let g:cpp_attributes_highlight = 1
 let g:cpp_member_highlight = 1
-
-Plug 'aklt/plantuml-syntax'
+let g:cpp_simple_highlight = 1
 
 "  ALE as linter (for Markdown install Pandoc) an language client (for C/C++ install CCLS)
 
@@ -34,6 +36,7 @@ Plug 'dense-analysis/ale'
 let g:ale_c_build_dir = getcwd()."/build/"
 let g:ale_linters = {'c': ['ccls'], 'cpp': ['ccls']}
 let g:ale_cpp_cc_options = '-std=c++20 -Wall'
+
 " https://github.com/MaskRay/ccls/wiki/Customization
 " 
 " Path problem: compile_commands.json generated in container, compiler and include files at the host
@@ -53,9 +56,10 @@ let g:ale_fixers = {
          \}
 let g:ale_completion_enabled = 1
 let g:ale_hover_to_preview = 1
+let g:ale_virtualtext_cursor = 1
 nn <silent> gd :ALEGoToDefinition<cr>
 nn <silent> gt :ALEGoToTypeDefinition<cr>
-nn <silent> gr :ALEFindReferences -relative<cr>
+nn <silent> gr :ALEFindReferences -relative -quickfix<cr>
 nn <silent> gs :ALESymbolSearch -relative <query><cr>
 nn <silent> gh :ALEHover<cr>
 " Show the full linter message for the problem nearest to the cursor on the
@@ -183,17 +187,6 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
-""" set t_Co=256
-"" colorscheme landscape
-"" colorscheme pablo
-
-try
-   colorscheme desert
-catch
-endtry
-
-set background=dark
-
 " Set extra options when running in GUI mode
 if has("gui_running")
    set guioptions-=T
@@ -248,4 +241,8 @@ endif
 " Set language
 set spell spelllang=en_us
 set nospell
+
+colorscheme gruvbox
+set bg=dark
+
 
