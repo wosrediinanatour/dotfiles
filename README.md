@@ -1,7 +1,8 @@
 # dotfiles
+
 Dot files for VIM and TMUX - the foci are on 
 
- - minimized numbers of plug-ins (dependencies) with maximum performance.
+ - minimized numbers of plug-ins /dependencies with maximum performance.
 
  - software development
 
@@ -25,7 +26,7 @@ The main feature is showing following panel at the bottom:
 
 Main features - for the list of plug-ins see `.vimrc`:
 
- - Use of vim-clap for searching almost everything: buffers, files, regex in files, marks, etc.
+ - Use of vim-fzf for searching almost everything: buffers, files, regex in files, marks, etc.
 
  - Use of vim-ale: linter and language client (LSP client)
 
@@ -81,16 +82,20 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
  - You may install all dependencies together by
  ```sh
- sudo dnf install -y ripgrep ccls pandoc plantuml clang-format
+ sudo dnf install -y ripgrep bat fzf pandoc plantuml clang-format clangd
  ```
+
+    - FZF is a fuzzy finder for: files, commits, buffers, ... 
 
     - RIPGREP is a fast replacement of GREP.
 
-    - For Language Client ALE (vim) you need a language server. For C++ CCLS is configured.
+    - For Language Client ALE (vim) you need a language server. For C++ CLANGD is used.
  
     - For markdown linting Pandoc and for C and C++ linting clang-format is used.
 
     - PlantUML installation is optional.
+
+    - VIM-FZF uses BAT for syntax highlighting of the file preview.
 
 ## TMUX
 

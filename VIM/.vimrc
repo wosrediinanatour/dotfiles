@@ -34,23 +34,11 @@ let g:cpp_simple_highlight = 1
 
 Plug 'dense-analysis/ale'
 let g:ale_c_build_dir = getcwd()."/build/"
-let g:ale_linters = {'c': ['ccls'], 'cpp': ['ccls']}
-let g:ale_cpp_cc_options = '-std=c++20 -Wall'
+"let g:ale_linters = {'c': ['ccls'], 'cpp': ['ccls']}
+let g:ale_linters = {'c': ['clangd'], 'cpp': ['clangd']}
 
-" https://github.com/MaskRay/ccls/wiki/Customization
-" 
-" Path problem: compile_commands.json generated in container, compiler and include files at the host
-"
-" Solution: configuration of CCLS
-"
-" - pathMappings are for mapping folders between container and host.
-" - Note that we have also to consider clang's parameter '--gcc-toolchain'.
-" - Since host uses a different C++ version, resourceDir has to be set to the host's include directory.
-" - If you encounter errors, you have to enable logging of CCLS in VIM-ALE:
-"    - ~/.vim/plugged/ale/ale_linters/cpp/ccls.vim:12 Add ' --log-file=/tmp/ccls.log -v=1' after %e  
-"    - If you see errors in /tmp/ccls.log that a header is not found: install it on the host (e.g. openssl-devel for ssl.h)
-"
-let g:ale_cpp_ccls_init_options = {"cacheFormat": "json", "clang": {"resourceDir": "/usr/lib64/clang/13.0.0", "pathMappings": ["/repository/>".getcwd()."/", "/opt/rh/gcc-toolset-10/root>"], "clang.extraArgs": ["--gcc-toolchain=/opt/rh/gcc-toolset-10/root/usr"]}, "compilationDatabaseDirectory": getcwd()."/build/", "index": {"multiVersion": 1}}
+let g:ale_cpp_clangd_options = '--background-index --log=verbose --pretty'
+let g:ale_cpp_cc_options = '-std=c++20 -Wall'
 let g:ale_fixers = {
          \   'cpp': ['clang-format'],
          \}
@@ -85,21 +73,18 @@ set statusline+=%{LinterStatus()}\
 Plug 'editorconfig/editorconfig-vim'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
-" CLAP: search for almost everything - buffers, files, regex in files, marks,...
+" FZF: search for almost everything - buffers, files, regex in files, marks,...
 
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
-let g:clap_theme = 'material_design_dark'
-let g:clap_layout = { 'relative': 'editor' }
-nmap <Leader>f :Clap gfiles<CR>
-nmap <Leader>F :Clap files<CR>
-nmap <Leader>b :Clap buffers<CR>
-nmap <Leader>h :Clap history<CR>
-nmap <Leader>' :Clap marks<CR>
-nmap <Leader>H :Clap help_tags<CR>
-nmap <Leader>c :Clap commits<CR>
-nmap <Leader>gg :Clap grep2<CR>
-nmap <Leader>gw :Clap grep2 ++query=<cword><CR>
-nmap <Leader>r :Clap recent_files<CR>
+Plug 'junegunn/fzf.vim'
+nmap <Leader>f :GFiles<CR>
+nmap <Leader>F :Files<CR>
+nmap <Leader>b :Buffers<CR>
+nmap <Leader>hc :History:<CR>
+nmap <Leader>hs :History/<CR>
+nmap <Leader>' :Marks<CR>
+nmap <Leader>c :Commits<CR>
+nmap <Leader>gg :Rg <C-R><C-W><CR>
+nmap <Leader>r :History<CR>
 
 " GITGUTTER: show git diff in the sign column
 
