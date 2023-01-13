@@ -20,9 +20,12 @@ set laststatus=2 " Always show the status line
 "
 call plug#begin('~/.vim/plugged')
 
+" Support ANSI escape sequences, .e.g. for showing colors
+"Plug 'powerman/vim-plugin-AnsiEsc'
+
+
 " Syntax highlighting
 "
-
 Plug 'aklt/plantuml-syntax'
 
 Plug 'bfrg/vim-cpp-modern'
@@ -33,12 +36,15 @@ let g:cpp_simple_highlight = 1
 "  ALE as linter (for Markdown install Pandoc) an language client (for C/C++ install CCLS)
 
 Plug 'dense-analysis/ale'
+
+"let g:ale_command_wrapper = '~/Sources/railx/ale-command-wrapper.sh'
+
 let g:ale_c_build_dir = getcwd()."/build/"
 "let g:ale_linters = {'c': ['ccls'], 'cpp': ['ccls']}
 let g:ale_linters = {'c': ['clangd'], 'cpp': ['clangd']}
 
 let g:ale_cpp_clangd_options = '--background-index --log=verbose --pretty'
-let g:ale_cpp_cc_options = '-std=c++20 -Wall'
+"let g:ale_cpp_cc_options = '-std=c++20 -Wall'
 let g:ale_fixers = {
          \   'cpp': ['clang-format'],
          \}
