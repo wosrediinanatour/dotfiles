@@ -248,8 +248,12 @@ endif
 " Set language
 set spell spelllang=en_us
 set nospell
+autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd FileType gitcommit setlocal spell
+set complete+=kspell
 
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme PaperColor
 set bg=dark
 
 
