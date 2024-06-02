@@ -1,0 +1,6 @@
+# User specific aliases and functions
+# Install Ruby Gems to ~/gems
+printf "Set up Jekyll...\n"
+export GEM_HOME="$HOME/gems"
+export PATH="$HOME/gems/bin:$PATH"
+

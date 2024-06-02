@@ -1,3 +1,4 @@
+printf "Setup BASH...\n"
 # Merge histories when using TMUX
 # https://unix.stackexchange.com/a/1292
 HISTCONTROL=ignoredups:erasedups

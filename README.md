@@ -66,8 +66,8 @@ $ stow -v VIM
 $ stow -v TMUX
   LINK: .tmux.conf => dotfiles/TMUX/.tmux.conf
   LINK: show_load_per_cpu => dotfiles/TMUX/show_load_per_cpu
-$ sudo stow -v BASH --target=/etc/profile.d/
-  LINK: bashrc.sh => ../../var/home/fxaver/dotfiles/BASH/bashrc.sh
+$ stow -v BASH
+  LINK: .bashrc.d => dotfiles/BASH/.bashrc.d
 ```
 
 ## VIM
@@ -114,7 +114,7 @@ sudo dnf install sysstat jq
 ```sh
 $ stow -D VIM
 $ stow -D TMUX
-$ sudo stow -D BASH --target=/etc/profile.d/
+$ stow -D BASH
 ```
 
 
