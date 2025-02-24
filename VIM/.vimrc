@@ -42,6 +42,7 @@ Plug 'dense-analysis/ale'
 let g:ale_c_build_dir = getcwd()."/build/"
 "let g:ale_linters = {'c': ['ccls'], 'cpp': ['ccls']}
 let g:ale_linters = {'c': ['clangd'], 'cpp': ['clangd']}
+let g:ale_python_pylint_executable = 'pylint-3'
 
 let g:ale_cpp_clangd_options = '--background-index --log=verbose --pretty'
 "let g:ale_cpp_cc_options = '-std=c++20 -Wall'
@@ -96,15 +97,16 @@ Plug 'editorconfig/editorconfig-vim'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 " FZF: search for almost everything - buffers, files, regex in files, marks,...
-
-Plug 'junegunn/fzf.vim'
+"    Cannot use latest version, since it would required a modern FZF.
+Plug 'junegunn/fzf.vim', { 'commit': 'c5ce790' }
 nmap <Leader>f :GFiles<CR>
 nmap <Leader>F :Files<CR>
 nmap <Leader>b :Buffers<CR>
 nmap <Leader>hc :History:<CR>
 nmap <Leader>hs :History/<CR>
 nmap <Leader>' :Marks<CR>
-nmap <Leader>c :Commits<CR>
+nmap <Leader>c :BCommits<CR>
+nmap <Leader>C :Commits<CR>
 nmap <Leader>gg :Rg <C-R><C-W><CR>
 nmap <Leader>r :History<CR>
 
@@ -151,6 +153,8 @@ command W w !sudo tee % > /dev/null
 " Turn on the Wild menu
 set wildmenu
 
+" Don't jump to top of file when coming back to a buffer
+set nostartofline
 
 " Sets how many lines of history VIM has to remember
 set history=500
@@ -228,9 +232,9 @@ set confirm
 " set mouse=a
 
 " make Vim show the absolute number for the current line, and relative numbers for other lines.
-set number
-set relativenumber
-set ruler
+"set number
+"set relativenumber
+"set ruler
 
 " Update sign column every quarter second
 set updatetime=100
