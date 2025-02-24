@@ -4,6 +4,5 @@
 #
 # MIT License: see File LICENSE
 #
-
-mpstat -P ALL -o JSON 1 1 | jq -r '.sysstat.hosts[0].statistics[]."cpu-load"[1:][].usr' | awk '{printf "cpu%d %2d%% ", NR-1, $1}'
+ mpstat -P ALL -o JSON 1 1 | jq -r '[.sysstat.hosts[0].statistics[]."cpu-load"[]] | sort_by(.usr)[-8:-1][] | "cpu" + .cpu + " " + (.usr | tostring) + "%"' | tr '\n' ' '
 
