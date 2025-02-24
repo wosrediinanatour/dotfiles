@@ -1,6 +1,6 @@
 # dotfiles
 
-Dot files for VIM and TMUX - the foci are on 
+Dotfiles for BASH, GIT, TMUX and VIM - the foci are on 
 
  - minimized numbers of plug-ins /dependencies with maximum performance.
 
@@ -48,6 +48,10 @@ Main features:
 
  - A single big history for all TMUX sessions. *Note* that `~/.bashrc` is not modified!
 
+## GIT
+
+The configuration stems from [How Core Git Developers Configure Git](https://blog.gitbutler.com/how-git-core-devs-configure-git/).
+
 # Setup
 
  - Clone repository into `~`:
@@ -66,8 +70,10 @@ $ stow -v VIM
 $ stow -v TMUX
   LINK: .tmux.conf => dotfiles/TMUX/.tmux.conf
   LINK: show_load_per_cpu => dotfiles/TMUX/show_load_per_cpu
-$ stow -v BASH
-  LINK: .bashrc.d => dotfiles/BASH/.bashrc.d
+$ sudo stow -v BASH --target=/etc/profile.d/
+  LINK: bashrc.sh => ../../var/home/fxaver/dotfiles/BASH/bashrc.sh
+$ stow -v GIT
+  LINK: .gitconfig => dotfiles/GIT/.gitconfig
 ```
 
 ## VIM
